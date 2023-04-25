@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./index.css" />
+    <title>Document</title>
+  </head>
+  <body class="body">
+    <main class="list">
+      <input class="list__input" type="text" />
+      <ul class="list__list"></ul>
+      <template id="point">
+        <li class="city-container">
+          <div class="city-container__string">
+            <span class="city-container__name"></span>
+            <button type="button" class="city-container__button">
+              Добавить
+            </button>
+            <button
+              type="button"
+              class="city-container__button city-container__button-remove city-container__button_removed"
+            >
+              Удалить
+            </button>
+          </div>
+          <div class="city-container__taxare-container">
+            <div class="city-container__taxare">
+              <div>
+                <span>Базовая стоимость доставки: </span
+                ><input
+                  class="city-container__taxare-input"
+                  type="number"
+                /><span> &#8381;</span>
+              </div>
+              <button class="city-container__button add-tax">
+                Добавить наценку
+              </button>
+            </div>
+            <ul class="city-container__taxare-list"></ul>
+          </div>
+        </li>
+      </template>
+      <template id="taxare-point">
+        <li class="city-container__taxare-point">
+          <div>
+            <input class="city-container__taxare-input" type="number" /> кг -
+            <input class="city-container__taxare-input" type="number" /> кг
+          </div>
+          <div>
+            <input class="city-container__taxare-input" type="number" />&#8381;
+            <p class="city-container__taxare-cost"></p>
+          </div>
+          <button class="city-container__button">Удалить наценку</button>
+        </li>
+      </template>
+    </main>
+    <script type="module" src="./index.js"></script>
+  </body>
+</html>

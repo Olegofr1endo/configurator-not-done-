@@ -1,0 +1,60 @@
+.city-container{
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+}
+
+.city-container__string{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: 3rem;
+    font-size: 2rem;
+    width: 100%;
+}
+
+.city-container__button{
+    display: auto;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 4px 8px;
+    border-radius: 5px;
+    border: 1px solid black;
+    background-color: rgb(115, 124, 255);
+    color: white;
+}
+
+.city-container__button_removed{
+    display: none;
+}
+
+.city-container__taxare-container{
+    display: none;
+    flex-direction: column;
+}
+
+.city-container__taxare{
+    font-size: 1.5rem;
+    height: 5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.city-container__taxare-input{
+    text-align: end;
+    font-size: 1.5rem;
+    height: 2rem;
+    width: 120px;
+}
+
+.city-container__taxare-point{
+    font-size: 1.5rem;
+    min-height: 4rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+}

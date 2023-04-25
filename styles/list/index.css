@@ -1,0 +1,30 @@
+.list{
+    padding-top: 2rem;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
+.list > *{
+    width: 100%;
+}
+
+.list__list{
+    list-style: none;
+}
+
+.list__point{
+    min-height: 3rem;
+    padding: 4px 8px;
+}
+
+
+.list__input{
+    height: 3rem;
+    padding: 4px;
+    font-size: 2rem;
+}
+
+.list__input::placeholder{
+    color: gray
+}
