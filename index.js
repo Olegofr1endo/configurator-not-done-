@@ -1,8 +1,11 @@
+import { nanoid } from "https://cdn.jsdelivr.net/npm/nanoid/nanoid.js";
+
 const pointTemplate = document.querySelector("#point");
 const taxPointTemplate = document.querySelector("#taxare-point");
 const list = document.querySelector(".list__list");
 const searchInput = document.querySelector(".list__input");
 const initialTaxe = { opened: false, base_cost: 0, taxes: [] };
+let id = 0;
 let data;
 
 async function getData() {
@@ -56,7 +59,13 @@ function addListeners(element, id) {
   });
 
   addTuxButton.addEventListener("click", (e) => {
-    const taxe = { additionalPrice: null, startWeight: null, endWeight: null };
+    const curId = nanoid();
+    const taxe = {
+      id: curId,
+      additionalPrice: null,
+      startWeight: null,
+      endWeight: null,
+    };
     const taxElement = taxPointTemplate.content
       .cloneNode(true)
       .querySelector(".city-container__taxare-point");
@@ -71,7 +80,11 @@ function addListeners(element, id) {
     const secondWeightInput = taxInputElements[1];
     const taxPriceInput = taxInputElements[2];
 
-    finalCostString.textContent = `Итоговая стоимость: ${baseCostInput.value} Р`;
+    const baseCost = currentData.taxe.base_cost
+      ? currentData.taxe.base_cost
+      : 0;
+
+    finalCostString.textContent = `Итоговая стоимость: ${baseCost} Р`;
 
     const currentData = data.find(({ id: dataId }) => {
       return id === dataId;
@@ -93,6 +106,14 @@ function addListeners(element, id) {
 
     removeButton.addEventListener("click", (e) => {
       taxElement.remove();
+      const index = currentData.taxe.taxes.findIndex((item) => {
+        return item.id === curId;
+      });
+      console.log(index);
+      currentData.taxe.taxes = [
+        ...currentData.taxe.taxes.slice(0, index),
+        ...currentData.taxe.taxes.slice(index + 1),
+      ];
     });
 
     taxContainer.appendChild(taxElement);
@@ -102,10 +123,10 @@ function addListeners(element, id) {
 async function renderList(search = "") {
   list.innerHTML = "";
   data = data ? data : await getData();
-  const filteredData = data.filter(({ name }) => {
-    return name.indexOf(search) === 0;
+  const filteredData = data.filter((item) => {
+    return item.name.indexOf(search) === 0;
   });
-  filteredData.forEach(({ id, name, taxe }) => {
+  filteredData.forEach(({ id, name, taxe }, dataIndex) => {
     const element = pointTemplate.content
       .cloneNode(true)
       .querySelector(".city-container");
@@ -125,10 +146,11 @@ async function renderList(search = "") {
       removeButton.classList.add("city-container__button_removed");
     }
 
-    taxe ? (baseCostInput.value = taxe.base_cost) : (baseCostInput.value = 0);
+    //taxe ? baseCostInput.value === taxe.base_cost : (baseCostInput.value = 0);
+    const baseCost = taxe.base_cost ? taxe.base_cost : 0;
 
     if (taxe && taxe.taxes) {
-      taxe.taxes.forEach((item) => {
+      taxe.taxes.forEach((item, taxeIndex) => {
         const taxElement = taxPointTemplate.content
           .cloneNode(true)
           .querySelector(".city-container__taxare-point");
@@ -150,7 +172,7 @@ async function renderList(search = "") {
         taxPriceInput.value = item.additionalPrice;
 
         finalCostString.textContent = `Итоговая стоимость: ${
-          +baseCostInput.value + +item.additionalPrice
+          +baseCost + +item.additionalPrice
         } Р`;
 
         firstWeightInput.addEventListener("change", (e) => {
@@ -168,7 +190,26 @@ async function renderList(search = "") {
 
         removeButton.addEventListener("click", (e) => {
           taxElement.remove();
+          const removeIndex = taxe.taxes.findIndex((foundItem) => {
+            return foundItem.id === item.id;
+          });
+          data = [
+            ...data.slice(0, dataIndex),
+            {
+              id: id,
+              name: name,
+              taxe: {
+                ...taxe,
+                taxes: [
+                  ...taxe.taxes.slice(0, removeIndex),
+                  ...taxe.taxes.slice(removeIndex + 1),
+                ],
+              },
+            },
+            ...data.slice(dataIndex + 1),
+          ];
         });
+        console.log(data);
 
         taxesList.appendChild(taxElement);
       });
@@ -180,7 +221,6 @@ async function renderList(search = "") {
     addListeners(element, id);
 
     list.appendChild(element);
-    console.log(data);
   });
 }
 
