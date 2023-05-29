@@ -22,11 +22,11 @@ function addListeners(element, id) {
   const removeButton = element.querySelector(".city-container__button-remove");
   const addTuxButton = element.querySelector(".add-tax");
   const baseCostInput = element.querySelector(".city-container__taxare-input");
+  const currentData = data.find(({ id: dataId }) => {
+    return id === dataId;
+  });
 
   baseCostInput.addEventListener("change", (e) => {
-    const currentData = data.find(({ id: dataId }) => {
-      return id === dataId;
-    });
     currentData.taxe["base_cost"] = e.target.value;
     renderList();
   });
@@ -36,9 +36,6 @@ function addListeners(element, id) {
       "flex";
     addButton.classList.add("city-container__button_removed");
     removeButton.classList.remove("city-container__button_removed");
-    const currentData = data.find(({ id: dataId }) => {
-      return id === dataId;
-    });
     currentData.taxe = {
       ...currentData.taxe,
       base_cost: 0,
@@ -51,9 +48,6 @@ function addListeners(element, id) {
       "none";
     addButton.classList.remove("city-container__button_removed");
     removeButton.classList.add("city-container__button_removed");
-    const currentData = data.find(({ id: dataId }) => {
-      return id === dataId;
-    });
     currentData.taxe = { ...initialTaxe };
     renderList();
   });
@@ -86,9 +80,6 @@ function addListeners(element, id) {
 
     finalCostString.textContent = `Итоговая стоимость: ${baseCost} Р`;
 
-    const currentData = data.find(({ id: dataId }) => {
-      return id === dataId;
-    });
     currentData.taxe.taxes.push(taxe);
 
     firstWeightInput.addEventListener("change", (e) => {
@@ -131,12 +122,12 @@ async function renderList(search = "") {
       .cloneNode(true)
       .querySelector(".city-container");
     const taxesList = element.querySelector(".city-container__taxare-list");
-    const baseCostInput = element.querySelector(
-      ".city-container__taxare-input"
-    );
     const addButton = element.querySelector(".city-container__button");
     const removeButton = element.querySelector(
       ".city-container__button-remove"
+    );
+    const baseCostInput = element.querySelector(
+      ".city-container__taxare-input"
     );
     if (taxe.opened) {
       addButton.classList.add("city-container__button_removed");
@@ -146,8 +137,9 @@ async function renderList(search = "") {
       removeButton.classList.add("city-container__button_removed");
     }
 
-    //taxe ? baseCostInput.value === taxe.base_cost : (baseCostInput.value = 0);
     const baseCost = taxe.base_cost ? taxe.base_cost : 0;
+
+    baseCostInput.value = baseCost;
 
     if (taxe && taxe.taxes) {
       taxe.taxes.forEach((item, taxeIndex) => {

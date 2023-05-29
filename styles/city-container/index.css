@@ -2,6 +2,7 @@
     border: 1px solid black;
     display: flex;
     flex-direction: column;
+    padding: 10px 20px;
 }
 
 .city-container__string{
@@ -17,8 +18,8 @@
 .city-container__button{
     display: auto;
     cursor: pointer;
-    font-size: 1rem;
-    padding: 4px 8px;
+    font-size: 1.2rem;
+    padding: 6px 12px;
     border-radius: 5px;
     border: 1px solid black;
     background-color: rgb(115, 124, 255);
@@ -57,4 +58,11 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
+}
+
+.city-container__name{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    max-width: 80%;
 }
